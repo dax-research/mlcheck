@@ -7,8 +7,8 @@ def test_high_cardinality():
     df = pd.DataFrame({
         "user_id": [f"user_{i}" for i in range(150)]
     })
-    
-    
+
+
 
     issue = check_cardinality(df)
 

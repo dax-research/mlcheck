@@ -11,7 +11,7 @@ def check_missing(df: pd.DataFrame, target=None):
     Returns:
         Issue object if missing values exist, else None
     """
-    
+
     missing = df.isnull().sum()
     missing = missing[missing > 0]
 

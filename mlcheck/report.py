@@ -7,7 +7,7 @@ class MLReport:
         self.df = df
         self.target = target
         self._issues = issues or []
-    
+
     def to_dict(self):
         """
         Return the report as a Python dictionary.
@@ -123,7 +123,7 @@ class MLReport:
     def issues(self):
         """Return the list of detected issues for this report."""
         return self._issues
-    
+
     def get_summary_text(self):
         """Return the report summary as plain text."""
         num_features = self.df.shape[1]

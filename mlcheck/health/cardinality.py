@@ -62,7 +62,7 @@ def check_cardinality(df: pd.DataFrame, target=None):
 
     if not columns_info:
         return None
-    
+
 
     return Issue(
         name="high_cardinality",
