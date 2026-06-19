@@ -1,12 +1,12 @@
-"""Basic usage example for mlcheck."""
+import pandas as pd
+from mlcheck.health.missing import check_missing
 
-from mlcheck import inspect
+df = pd.DataFrame({
+    "age": [10, None, 30, None],
+    "salary": [1000, 2000, None, 4000],
+    "name": ["A", "B", "C", "D"]
+})
 
+issue = check_missing(df)
 
-def main():
-    data = [1,2,3]
-    print(inspect(data))
-
-
-if __name__ == "__main__":
-    main()
+print(issue)

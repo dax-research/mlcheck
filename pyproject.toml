@@ -7,7 +7,7 @@ name = "mlcheck"
 version = "0.0.0"
 description = "Lightweight ML dataset health checks and recommendations"
 authors = [
-  {name = "", email = ""},
+  {name = "Dax", email = "Dax@gmail.com"},
 ]
 readme = "README.md"
 license = {text = "MIT"}
