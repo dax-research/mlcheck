@@ -9,33 +9,27 @@ def check_missing(df: pd.DataFrame, target=None):
     Returns:
         Issue object if missing values exist, else None
     """
+    
+    missing = df.isnull().sum()
+    missing = missing[missing > 0]
 
-    # count missing values per column
-    missing_counts = df.isnull().sum()
-
-    # keep only columns with missing values
-    missing_counts = missing_counts[missing_counts > 0]
-
-    # if no missing values → return None
-    if missing_counts.empty:
+    if missing.empty:
         return None
 
-    total_rows = len(df)
-
     details = {}
+    total = len(df)
 
-    for col, count in missing_counts.items():
+    for col, count in missing.items():
         details[col] = {
             "missing_count": int(count),
-            "percentage": round((count / total_rows) * 100, 2)
+            "percentage": round((count / total) * 100, 2)
         }
 
-    # severity logic (simple but useful)
-    max_percentage = max(v["percentage"] for v in details.values())
+    max_pct = max(v["percentage"] for v in details.values())
 
-    if max_percentage < 5:
+    if max_pct < 5:
         severity = "low"
-    elif max_percentage < 20:
+    elif max_pct < 20:
         severity = "medium"
     else:
         severity = "high"
