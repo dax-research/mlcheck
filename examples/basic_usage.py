@@ -1,12 +1,12 @@
 import pandas as pd
-from mlcheck.health.missing import check_missing
+from mlcheck import inspect
 
 df = pd.DataFrame({
-    "age": [10, None, 30, None],
-    "salary": [1000, 2000, None, 4000],
-    "name": ["A", "B", "C", "D"]
+    "age": [20, 21, 22, 23, 24],
+    "label": [0, 0, 0, 0, 1]
 })
 
-issue = check_missing(df)
+report = inspect(df, target="label")
 
-print(issue)
+report.summary()
+report.show_issues()   # or report.issues(), depending on your API
