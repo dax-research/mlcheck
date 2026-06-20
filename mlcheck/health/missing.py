@@ -1,5 +1,7 @@
 import pandas as pd
 from mlcheck.models.issue import Issue
+from mlcheck.config import MEDIUM_MISSING_THRESHOLD
+from mlcheck.config import LOW_MISSING_THRESHOLD
 
 
 def check_missing(df: pd.DataFrame, target=None):
@@ -27,9 +29,9 @@ def check_missing(df: pd.DataFrame, target=None):
 
     max_pct = max(v["percentage"] for v in details.values())
 
-    if max_pct < 5:
+    if max_pct < LOW_MISSING_THRESHOLD:
         severity = "low"
-    elif max_pct < 20:
+    elif max_pct < MEDIUM_MISSING_THRESHOLD:
         severity = "medium"
     else:
         severity = "high"
