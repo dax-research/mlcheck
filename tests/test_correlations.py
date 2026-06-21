@@ -1,6 +1,6 @@
 import pandas as pd
-from mlcheck.health.correlations import check_correlations
 import numpy as np
+from mlcheck.health.correlations import check_correlations
 
 def test_high_correlation_detected():
     df = pd.DataFrame({
