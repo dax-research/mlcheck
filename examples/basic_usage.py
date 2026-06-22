@@ -2,19 +2,17 @@ import pandas as pd
 from mlcheck import inspect
 
 df = pd.DataFrame({
-    "age": [20, 21, 22, 23, 24],
-    "label": [0, 0, 0, 0, 1]
+    "age": [20, 21, None, 23],
+    "salary": [50000, 52000, 51000, 1000000],
+    "target": [0, 0, 0, 1],
 })
 
-report = inspect(df, target="label")
+report = inspect(df, target="target")
 
 report.summary()
-report.to_dict()
-print()
-print(f"Health Score: {report.health_score()}")
-report.show_issues()   # or report.issues(), depending on your API
+
+print("Health Score:", report.health_score())
+
+print("\nRecommendations:")
 for rec in report.recommendations():
-    print(
-        f"[{rec['severity'].upper()}] "
-        f"{rec['issue']}: {rec['recommendation']}"
-    )
+    print("-", rec)
