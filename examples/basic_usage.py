@@ -9,4 +9,12 @@ df = pd.DataFrame({
 report = inspect(df, target="label")
 
 report.summary()
+report.to_dict()
+print()
+print(f"Health Score: {report.health_score()}")
 report.show_issues()   # or report.issues(), depending on your API
+for rec in report.recommendations():
+    print(
+        f"[{rec['severity'].upper()}] "
+        f"{rec['issue']}: {rec['recommendation']}"
+    )
