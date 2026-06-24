@@ -3,13 +3,14 @@ import pandas as pd
 from mlcheck.models.issue import Issue
 from mlcheck.config import CORRELATION_THRESHOLD
 
+
 def check_correlations(df: pd.DataFrame, target=None):
     """
     Detect highly correlated numeric feature pairs.
 
     Correlation severity:
-        - Medium: 0.80 <= |r| < 0.90
-        - High:   |r| >= 0.90
+        - Medium: 0.80 <= |r| < CORRELATION_THRESHOLD
+        - High:   |r| >= CORRELATION_THRESHOLD
 
     Parameters
     ----------
@@ -26,18 +27,23 @@ def check_correlations(df: pd.DataFrame, target=None):
         detected, otherwise None.
     """
 
-    # Select only numeric columns
+    # Select numeric columns only
     numeric_df = df.select_dtypes(include="number")
 
     # Exclude target column
     if target is not None and target in numeric_df.columns:
         numeric_df = numeric_df.drop(columns=[target])
 
-    # Need at least two numeric columns
+    # Remove constant columns (they produce NaN correlations)
+    numeric_df = numeric_df.loc[
+        :, numeric_df.nunique(dropna=True) > 1
+    ]
+
+    # Need at least two columns to compute correlations
     if numeric_df.shape[1] < 2:
         return None
 
-    # Compute absolute correlation matrix
+    # Compute absolute Pearson correlation matrix
     corr_matrix = numeric_df.corr().abs()
 
     pairs = []
@@ -45,12 +51,19 @@ def check_correlations(df: pd.DataFrame, target=None):
 
     columns = corr_matrix.columns
 
-    # Iterate over upper triangle only
+    # Iterate through upper triangle only
     for i in range(len(columns)):
         for j in range(i + 1, len(columns)):
-            corr_value = float(corr_matrix.iloc[i, j])
 
-            # Ignore weak correlations
+            corr_value = corr_matrix.iloc[i, j]
+
+            # Skip undefined correlations
+            if pd.isna(corr_value):
+                continue
+
+            corr_value = float(corr_value)
+
+            # Ignore correlations below 0.80
             if corr_value < 0.80:
                 continue
 
