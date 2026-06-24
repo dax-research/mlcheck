@@ -30,7 +30,7 @@ def check_imbalance(df: pd.DataFrame, target=None):
             exists. Returns None if the dataset is balanced or if no valid
             target column is specified.
     """
-        
+
     if target is None or target not in df.columns:
         return None
 

@@ -36,5 +36,5 @@ def inspect(df, target=None):
 
         except Exception as e:
             print(f"[MLCheck Warning] {check.__name__} failed: {e}")
-    
+
     return MLReport(df=df, target=target, issues=issues)
